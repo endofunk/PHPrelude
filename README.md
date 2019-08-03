@@ -17,7 +17,7 @@ The following is a list of the functional data types included in `Endofunk`.
 | Identity | The Identity type is a trivial type to access functor, monad, applicative functor, etc. algebras. |
 | Maybe | The Maybe type encapsulates an optional value. A value of type Maybe a either contains a value of type a (represented as Just a), or it is empty (represented as Nothing)|
 | Either| The Either type encapsulates a logical disjunction of two possibilities: either Left or Right. |
-| Result | The Result type is similar to the Either type except that the left disjunction is fixed to capture of a C# Exception. |
+| Result | The Result type is similar to the Either type except that the left disjunction is fixed to capture of a PHP Exception. |
 | Validation | The Validation data type is isomorphic to Either, but has an instance of Applicative that accumulates on the error side. |
 | Reader | The Reader type (also called the Environment monad). Represents a computation, which can read values from a shared environment, pass values from function to function, and execute sub-computations in a modified environment. |
 
