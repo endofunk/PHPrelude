@@ -44,9 +44,9 @@ $addSix(4); // 10;
 ```php
 $f = Lambda::compose(Strings::toUppercase(), Strings::trim());
 $v = Identity::of("hello ")
-	->map($f)
+  ->map($f)
   ->Match(function ($v) {
-		echo Strings::log("Identity", $v);
+    echo Strings::log("Identity", $v);
 });
  
 // -------------------------------------------------------------- Identity ----
@@ -56,20 +56,20 @@ $v = Identity::of("hello ")
 ## Kleisli Composition
 ```php
 $incrementM = function ($v) {
-	return Identity::of($v + 1);
+  return Identity::of($v + 1);
 };
 
 $squareM = function ($v) {
-	return Identity::of($v * $v);
+  return Identity::of($v * $v);
 };
 
 $incsquare = Identity::compose($incrementM, $squareM);
 
 Identity::of(2)
-	->bind($incsquare)
-	->Match(function ($v) {
-		echo Strings::log("Identity", $v);
-	});
+  ->bind($incsquare)
+  ->Match(function ($v) {
+    echo Strings::log("Identity", $v);
+  });
  
 // -------------------------------------------------------------- Identity ----
 // int(9)
@@ -78,15 +78,15 @@ Identity::of(2)
 ## Applicative Functor - Lazy Application
 ```php
 $g = function (string $name, string $surname): string {
-	return $name . ' ' . $surname;
+  return $name . ' ' . $surname;
 };
 $gc = Module::curry($g);
 
 Identity::of($gc)
-	->fapply(Identity::of("Jack"))
-	->fapply(Identity::of("Sprat"))
+  ->fapply(Identity::of("Jack"))
+  ->fapply(Identity::of("Sprat"))
   ->Match(function ($v) {
-		echo Strings::log("Identity", $v);
+    echo Strings::log("Identity", $v);
 });
 
 \\ ------------------------------------------------------- Identity ----
@@ -97,12 +97,12 @@ Identity::of($gc)
 LiftA(x) supports arities from 1 to 9.  
 ```php
 $g = function (string $name, string $surname): string {
-	return $name . ' ' . $surname;
+  return $name . ' ' . $surname;
 };
 
 Identity::liftA2($g, Identity::of("Jack"), Identity::of("Sprat")) // liftA(x) auto currys the function
   ->Match(function ($v) {
-		echo Strings::log("Identity", $v);
+    echo Strings::log("Identity", $v);
 });
 
 \\ ------------------------------------------------------- Identity ----
@@ -114,45 +114,45 @@ Identity::liftA2($g, Identity::of("Jack"), Identity::of("Sprat")) // liftA(x) au
 
 class SQL extends Module {
 
-	protected static function __connect(string $dsn, string $database, string $host, string $username, string $password): Result {
-		return Result::try (function () use ($dsn, $database, $host, $username, $password) {
-			return new PDO("$dsn:dbname=$database;host=$host", $username, $password);
-		});
-	}
+  protected static function __connect(string $dsn, string $database, string $host, string $username, string $password): Result {
+    return Result::try (function () use ($dsn, $database, $host, $username, $password) {
+      return new PDO("$dsn:dbname=$database;host=$host", $username, $password);
+    });
+  }
 
-	protected static function __query($sql): callable {
-		return function ($conn) use ($sql) {
-			return Result::try (function () use ($conn, $sql) {
-				$result = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-				if (!$result) {
-					throw new Exception($mysqli->error0, $severity, $file, $line);
-				}
-				return [$conn, $result];
-			});
-		};
-	}
+  protected static function __query($sql): callable {
+    return function ($conn) use ($sql) {
+      return Result::try (function () use ($conn, $sql) {
+        $result = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        if (!$result) {
+          throw new Exception($mysqli->error0, $severity, $file, $line);
+        }
+        return [$conn, $result];
+      });
+    };
+  }
 
-	protected static function __close(): callable {
-		return function ($conn) {
-			return Result::try (function () use ($conn) {
-				$conn[0] = null;
-				return $conn[1];
-			});
-		};
-	}
+  protected static function __close(): callable {
+    return function ($conn) {
+      return Result::try (function () use ($conn) {
+        $conn[0] = null;
+        return $conn[1];
+      });
+    };
+  }
 }
 ```
 
 ### Usage example of Result based SQL PDO monadic functions
 ```php
 SQL::connect("mysql", "sakila", "127.0.0.1", "username", "password")
-	->bind(SQL::query("call sakila.SP_actors()"))
-	->bind(SQL::close())
-	->match(function ($value) {
-		echo json_encode($value) . "\n";
-	}, function ($error) {
-		echo $error . "\n";
-	});
+  ->bind(SQL::query("call sakila.SP_actors()"))
+  ->bind(SQL::close())
+  ->match(function ($value) {
+    echo json_encode($value) . "\n";
+  }, function ($error) {
+    echo $error . "\n";
+  });
  
 // [{"actor_id":"1","first_name":"PENELOPE","last_name":"GUINESS","last_update":"2006-02-15 04:34:33"},
 // ...
@@ -163,13 +163,13 @@ SQL::connect("mysql", "sakila", "127.0.0.1", "username", "password")
 ### Usage example of Result based Exception trap
 ```php
 $f = function () {
-	throw new Exception("Value must be 1 or below");
-	return 1;
+  throw new Exception("Value must be 1 or below");
+  return 1;
 };
 
 Result::try ($f)
   ->Match(function ($v) {
-		 echo Strings::log("Result", $v);
+     echo Strings::log("Result", $v);
 });
 
 // ------------------------------------------------------- Result ----
