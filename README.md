@@ -45,7 +45,7 @@ $addSix(4); // 10;
 $f = Lambda::compose(Strings::toUppercase(), Strings::trim());
 $v = Identity::of("hello ")
 	->map($f)
- ->Match(function ($v) {
+  ->Match(function ($v) {
 		echo Strings::log("Identity", $v);
 });
  
@@ -85,7 +85,7 @@ $gc = Module::curry($g);
 Identity::of($gc)
 	->fapply(Identity::of("Jack"))
 	->fapply(Identity::of("Sprat"))
- ->Match(function ($v) {
+  ->Match(function ($v) {
 		echo Strings::log("Identity", $v);
 });
 
@@ -101,7 +101,7 @@ $g = function (string $name, string $surname): string {
 };
 
 Identity::liftA2($g, Identity::of("Jack"), Identity::of("Sprat")) // liftA(x) auto currys the function
- ->Match(function ($v) {
+  ->Match(function ($v) {
 		echo Strings::log("Identity", $v);
 });
 
