@@ -24,7 +24,7 @@ The following is a list of the functional data types included in `Endofunk`.
 All types support `Functor`, `Applicative Functor` and `Monad`; with `monadic lifters`, `applicative lifters`, and `Kleisli monadic composition`.
 
 # Functional Prelude
-The core prelude libraries are for the most part a copy of [the Vector](https://github.com/joseph-walker/vector) PHP FP Library developed by [joseph-walker](https://github.com/joseph-walker). The code for `Vector` has been integrated into this framework with a few changes; meaning there is no dependency on `Vector` only `PHPrelude`.
+The base prelude combinators, e.g. curry, k-combinator, etc... are for the most part a copy of [the Vector](https://github.com/joseph-walker/vector) PHP FP Library developed by [joseph-walker](https://github.com/joseph-walker). The code for `Vector` has however been fully integrated into this framework with a few changes to better fit in with the operation of the monadic data types; meaning there is no dependency on `Vector` only `PHPrelude`.
 
 # A few Examples:
 
